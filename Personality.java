@@ -18,10 +18,13 @@ public class Personality {
         while(input.hasNextLine()){
             name = input.nextLine();
             testResponse = input.nextLine();
+            int[] bArr = new int[4]; 
+            int [] aArr = new int [4];
+            countSingleUser(name, testResponse, aArr, bArr);
         }
-        int[] bArr = new int[4]; 
-        int [] aArr = new int [4];
-        countSingleUser(name, testResponse, aArr, bArr);
+
+
+
     }
 
     public static void intro(){
@@ -62,14 +65,9 @@ public class Personality {
                 }
             }
         }
+        System.out.print(name);
+        System.out.print(Arrays.toString(aArr));
+        System.out.print(Arrays.toString(bArr));
+        System.out.println();
     }
 }
-
-
-
-
-
-
-
-
-
