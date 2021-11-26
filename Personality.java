@@ -10,21 +10,22 @@ public class Personality {
         String inputFile = console.nextLine();
         Scanner input = new Scanner(new File(inputFile));
 
-        // System.out.print("output file name? ");
-        // String outputFile = console.nextLine();
-        // PrintStream output = new PrintStream(new File(outputFile));
-        String testResponse = "";
-        String name = "";
+        System.out.print("output file name? ");
+        String outputFile = console.nextLine();
+        PrintStream output = new PrintStream(new File(outputFile));
+        
         while(input.hasNextLine()){
-            name = input.nextLine();
-            testResponse = input.nextLine();
+            String name = input.nextLine();
+            String testResponse = input.nextLine();
             int[] bArr = new int[4]; 
             int [] aArr = new int [4];
-            countSingleUser(name, testResponse, aArr, bArr);
-            int[] bPercent= bPercentage(name, aArr, bArr);
-            personality(bPercent);
+            countSingleUser(testResponse, aArr, bArr);
+            int[] bPercent= bPercentage(aArr, bArr);
+            char [] personalityType = personality(bPercent);
+            output.print(name + ": " + Arrays.toString(bPercent) + " = ");
+            output.print(personalityType);
+            output.println();
         }
-
     }
 
     public static void intro(){
@@ -36,7 +37,7 @@ public class Personality {
         System.out.println();
     }
 
-    public static void countSingleUser(String name, String testResponse, int[] aArr, int [] bArr){
+    public static void countSingleUser(String testResponse, int[] aArr, int [] bArr){
         for (int i = 0; i < testResponse.length(); i++) {
             char response = testResponse.charAt(i);
             if (i % 7 == 0){
@@ -67,17 +68,18 @@ public class Personality {
         }
     }
 
-    public static int[] bPercentage(String name, int [] aArr, int [] bArr){
+    public static int[] bPercentage(int [] aArr, int [] bArr){
         int [] bPercent = new int [4];
         for (int i = 0; i < bArr.length; i++) {
-            bPercent[i] = (100 * bArr[i])/(bArr[i] + aArr[i]);
+            double total = (100.0 * bArr[i])/(bArr[i] + aArr[i]);
+            bPercent[i] = (int)Math.round(total);
         }
         return bPercent;
     }
 
-    public static void personality(int [] bPercent) {
+    public static char[] personality(int [] bPercent) {
         char [] left = {'E', 'S', 'T', 'J'};
-        char [] right = {'I', 'I', 'F', 'P'};
+        char [] right = {'I', 'N', 'F', 'P'};
         char [] personality = new char [4];
         for (int i = 0; i < bPercent.length; i++){
             if (bPercent[i] > 50){
@@ -88,5 +90,6 @@ public class Personality {
                 personality[i] = 'X';
             }
         }
+        return personality;
     }
 }
